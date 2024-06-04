@@ -10,3 +10,12 @@ spring:
     properties.hibernate:
       show_sql: true
       format_sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret:
+    access: czhuUGpleERKNHQ2ZnNJVUlVaGhYcWxrdFhqWGRrY3l5Z0RWVjVJZXBZcUJUbXY0b1hGRlIyR3drSXhCTXpyN09FSFhFSGQzN3c9PQ==
+    refresh: ekwydmZ5bm92eHJmL2twRjlPMm00TkNXS0pvT05TVEpQLzdzOUoyakVHM2lmaUtDR3lsYVo4ZkRlM1BjaDA1QXdBekthdzlyT01OZz09

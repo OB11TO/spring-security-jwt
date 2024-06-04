@@ -43,17 +43,18 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	implementation 'org.liquibase:liquibase-core'
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdoc}"
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
-	implementation "javax.xml.bind:jaxb-api:${jaxbApi}"
+//	implementation "javax.xml.bind:jaxb-api:${jaxbApi}"
 	implementation "io.jsonwebtoken:jjwt-api:${jsonwebtoken}"
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
-	implementation("org.openapitools:jackson-databind-nullable:${jacksonDatabindNullable}")
+//	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
-	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.17.0'
+//	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.17.0'
 
 	compileOnly 'org.projectlombok:lombok'
 
