@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: adagridjan:create-tables-security
+      author: adagridjan
+
+  - include:
+      file: db.changelog-1.0.sql
+      relativeToChangelogFile: true
+

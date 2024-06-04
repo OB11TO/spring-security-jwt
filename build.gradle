@@ -4,11 +4,36 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.5'
 }
 
-group = 'ru.ob11to'
-version = '0.0.1-SNAPSHOT'
+ext {
+	projectGroup = "ru.ob11to"
+	projectVersion = "0.0.1"
+
+	mapstructVersion = "1.4.2.Final"
+	springdoc = "2.0.3"
+	jaxbApi = "2.3.1"
+	jsonwebtoken = "0.11.5"
+	jacksonDatabindNullable = "0.2.6"
+	jjwtImpl = "0.11.5"
+	jjwtJackson = "0.11.5"
+}
+
+def projectVersion = projectVersion
+def projectGroup = projectGroup
+def release = "false"
+
+def isReleaseVersion = release ? release.toBoolean() : false
+
+group = projectGroup
+version = isReleaseVersion ? projectVersion : "${projectVersion}-SNAPSHOT"
 
 java {
 	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 repositories {
@@ -17,10 +42,33 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	implementation 'org.liquibase:liquibase-core'
+	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdoc}"
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+
+	implementation "javax.xml.bind:jaxb-api:${jaxbApi}"
+	implementation "io.jsonwebtoken:jjwt-api:${jsonwebtoken}"
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation("org.openapitools:jackson-databind-nullable:${jacksonDatabindNullable}")
+	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
+	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.17.0'
+
+	compileOnly 'org.projectlombok:lombok'
+
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtImpl}"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtJackson}"
+
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
