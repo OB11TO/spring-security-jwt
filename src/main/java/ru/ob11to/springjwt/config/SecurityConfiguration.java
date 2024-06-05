@@ -3,6 +3,7 @@ package ru.ob11to.springjwt.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,7 +33,8 @@ public class SecurityConfiguration {
 
     private static final String[] AUTH_WHITELIST = {
             "/auth/login",
-            "/auth/access-token"
+            "/auth/access-token",
+            "/users"
     };
 
     private final JwtFilter jwtFilter;
@@ -44,7 +46,7 @@ public class SecurityConfiguration {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(urlConfig -> urlConfig
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.POST,AUTH_WHITELIST).permitAll()
                         .requestMatchers(SWAGGER_AND_METRIC).permitAll()
                         .anyRequest().authenticated()
                 )
