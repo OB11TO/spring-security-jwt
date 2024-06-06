@@ -38,7 +38,8 @@ public class AuthController {
                     @ApiResponse(responseCode = "200", description = "Successful operation", content = {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))
                     })
-            }
+            },
+            security = @SecurityRequirement(name = "bearerAuth")
     )
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
@@ -47,7 +48,7 @@ public class AuthController {
 
     @Operation(
             operationId = "getNewAccessToken",
-            summary = "Get New Access Token",
+            summary = "Получить новый access token",
             tags = { "Authentication" },
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -67,9 +68,7 @@ public class AuthController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK")
             },
-            security = {
-                    @SecurityRequirement(name = "JWT_auth")
-            }
+            security = @SecurityRequirement(name = "bearerAuth")
     )
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String header) {
