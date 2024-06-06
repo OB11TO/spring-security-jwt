@@ -1,0 +1,89 @@
+version: "3.9"
+
+x-spring-env: &spring-env
+  environment:
+    - "SPRING_PROFILES_ACTIVE=docker"
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:14.8-alpine3.18
+    environment:
+      POSTGRES_DB: "aqua"
+      POSTGRES_USER: "migration_user"
+      POSTGRES_PASSWORD: "mgr_user_pwd"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - network
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:7.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@alvioneurope.ru"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - network
+
+  application-backend:
+    container_name: backend_container
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    <<: *spring-env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - backend-data:/data
+    networks:
+      - network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_container
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6378:6379"
+    networks:
+      - network
+
+  redis_insight:
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight_container
+    restart: always
+    ports:
+      - "5540:5540"
+    volumes:
+      - redis_insight_data:/data
+    networks:
+      - network
+
+volumes:
+  pg-data:
+  pgadmin-data:
+  backend-data:
+  redis_data:
+  redis_insight_data:
+
+networks:
+  network:
+    driver: bridge

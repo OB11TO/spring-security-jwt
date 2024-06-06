@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.1.152:5432/aqua_test
+    username: migration_user
+    password: mgr_user_pwd
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: redis_container
+      port: 6379
